@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, AbstractControl } from '@angular/forms';
+import {FormGroup, FormControl, AbstractControl, FormBuilder, Validators} from '@angular/forms';
 import { UserModel } from './../../models/user.model';
 
 
@@ -20,19 +20,42 @@ export class SignupReactiveFormComponent implements OnInit {
   );
 
   // form model
-  userForm = new FormGroup({
-    firstName: new FormControl(''),
-    lastName: new FormControl(''),
-    email: new FormControl(''),
-    sendProducts: new FormControl(true)
+  // userForm = new FormGroup({
+  //   firstName: new FormControl(''),
+  //   lastName: new FormControl(''),
+  //   email: new FormControl(''),
+  //   sendProducts: new FormControl(true)
+  // });
+
+  userForm = this.fb.group({
+    firstName: ['', [Validators.required, Validators.minLength(3)]],
+    lastName: [
+      { value: 'Zhyrytskyy', disabled: false },
+      [Validators.required, Validators.maxLength(50)]
+    ],
+    email: [
+      '',
+      [
+        Validators.required,
+        Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+'),
+        Validators.email
+      ]
+    ],
+
+    sendProducts: true
   });
 
-  constructor() { }
+
+  constructor(private fb: FormBuilder) { }
 
   ngOnInit() {
-    this.setFormValues();
+    // this.setFormValues();
     // this.patchFormValues();
 
+  }
+
+  onReset(): void {
+    this.userForm.reset();
   }
 
   onSave(): void {
@@ -59,7 +82,7 @@ export class SignupReactiveFormComponent implements OnInit {
   private setFormValues(): void {
     this.userForm.setValue({
       firstName: this.user.firstName,
-      lastName: this.user.lastName,
+      lastName: { value: this.user.lastName, disabled: false },
       email: this.user.email,
       sendProducts: this.user.sendProducts
     });
@@ -68,7 +91,7 @@ export class SignupReactiveFormComponent implements OnInit {
   private patchFormValues(): void {
     this.userForm.patchValue({
       firstName: this.user.firstName,
-      lastName: this.user.lastName
+      lastName: { value: this.user.lastName, disabled: false }
     });
   }
 

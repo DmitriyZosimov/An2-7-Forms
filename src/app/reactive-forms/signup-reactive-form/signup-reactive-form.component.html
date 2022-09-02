@@ -17,8 +17,6 @@
                                id="firstNameId"
                                type="text"
                                placeholder="First Name (required)"
-                               required
-                               minlength="3"
                                formControlName="firstName"/>
                       <span class="help-block" *ngIf="(firstName.touched || firstName.dirty) && firstName.errors">
                         <span *ngIf="firstName.hasError('required')">
@@ -41,8 +39,6 @@
                                id="lastNameId"
                                type="text"
                                placeholder="Last Name (required)"
-                               required
-                               maxlength="50"
                                formControlName="lasstName"/>
                       <span class="help-block" *ngIf="(lastName.touched || lastName.dirty) && lastName.errors">
                         <span *ngIf="lastName.hasError('required')">
@@ -63,8 +59,6 @@
                                id="emailId"
                                type="email"
                                placeholder="Email (required)"
-                               required
-                               pattern="[a-z0-9._%+-]+@[a-z0-9.-]+"
                                formControlName="email"/>
                       <span class="help-block" *ngIf="(email.touched || email.dirty) && email.errors">
                         <span *ngIf="email.hasError('required')">
@@ -166,6 +160,12 @@
                                     [disabled]="!userForm.valid">
                                 Save
                             </button>
+                          <button class="btn btn-primary"
+                                  type="button"
+                                  (click)="onReset()">
+                                  Reset
+                          </button>
+
                         </span>
                     </div>
                 </div>
