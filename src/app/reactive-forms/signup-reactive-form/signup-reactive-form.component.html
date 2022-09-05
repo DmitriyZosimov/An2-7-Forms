@@ -1,24 +1,24 @@
 <div class="panel panel-primary">
-    <div class="panel-heading">
-        Sign Up!
-    </div>
+  <div class="panel-heading">
+    Sign Up!
+  </div>
 
-    <div class="panel-body">
-        <form class="form-horizontal"
-              (ngSubmit)="onSave()"
-              [formGroup]="userForm">
-        <fieldset>
-                <div class="form-group"
-                     [ngClass]="{'has-error': (firstName.touched || firstName.dirty) && !firstName.valid }">
-                    <label class="col-md-2 control-label"
-                           for="firstNameId">First Name</label>
-                    <div class="col-md-8">
-                        <input class="form-control"
-                               id="firstNameId"
-                               type="text"
-                               placeholder="First Name (required)"
-                               formControlName="firstName"/>
-                      <span class="help-block" *ngIf="(firstName.touched || firstName.dirty) && firstName.errors">
+  <div class="panel-body">
+    <form class="form-horizontal"
+          (ngSubmit)="onSave()"
+          [formGroup]="userForm">
+      <fieldset>
+        <div class="form-group"
+             [ngClass]="{'has-error': (firstName.touched || firstName.dirty) && !firstName.valid }">
+          <label class="col-md-2 control-label"
+                 for="firstNameId">First Name</label>
+          <div class="col-md-8">
+            <input class="form-control"
+                   id="firstNameId"
+                   type="text"
+                   placeholder="First Name (required)"
+                   formControlName="firstName"/>
+            <span class="help-block" *ngIf="(firstName.touched || firstName.dirty) && firstName.errors">
                         <span *ngIf="firstName.hasError('required')">
                               Please enter your first name.
                         </span>
@@ -27,40 +27,43 @@
                         </span>
                       </span>
 
-                    </div>
-                </div>
+          </div>
+        </div>
 
-                <div class="form-group"
-                     [ngClass]="{'has-error': (lastName.touched || lastName.dirty) && !lastName.valid }">
-                    <label class="col-md-2 control-label"
-                        for="lastNameId">Last Name</label>
-                    <div class="col-md-8">
-                        <input class="form-control"
-                               id="lastNameId"
-                               type="text"
-                               placeholder="Last Name (required)"
-                               formControlName="lastName"/>
-                      <span class="help-block" *ngIf="(lastName.touched || lastName.dirty) && lastName.errors">
+        <div class="form-group"
+             [ngClass]="{'has-error': (lastName.touched || lastName.dirty) && !lastName.valid }">
+          <label class="col-md-2 control-label"
+                 for="lastNameId">Last Name</label>
+          <div class="col-md-8">
+            <input class="form-control"
+                   id="lastNameId"
+                   type="text"
+                   placeholder="Last Name (required)"
+                   formControlName="lastName"/>
+            <span class="help-block" *ngIf="(lastName.touched || lastName.dirty) && lastName.errors">
                         <span *ngIf="lastName.hasError('required')">
                               Please enter your last name.
                         </span>
                       </span>
 
-                    </div>
-                </div>
+          </div>
+        </div>
 
-                <div class="form-group"
-                     [ngClass]="{'has-error': (email.touched || email.dirty) && email.invalid }">
-                    <label class="col-md-2 control-label"
-                        for="emailId">Email</label>
+        <div formGroupName="emailGroup"
+             [ngClass]="{'has-error': emailGroup.errors}">
+          <!-- Put here email and confirmEmail blocks -->
+          <div class="form-group"
+               [ngClass]="{'has-error': (email.touched || email.dirty) && email.invalid }">
+            <label class="col-md-2 control-label"
+                   for="emailId">Email</label>
 
-                    <div class="col-md-8">
-                        <input class="form-control"
-                               id="emailId"
-                               type="email"
-                               placeholder={{placeholder.email}}
-                               formControlName="email"/>
-                      <span class="help-block" *ngIf="(email.touched || email.dirty) && email.errors">
+            <div class="col-md-8">
+              <input class="form-control"
+                     id="emailId"
+                     type="email"
+                     placeholder={{placeholder.email}}
+                     formControlName="email"/>
+              <span class="help-block" *ngIf="(email.touched || email.dirty) && email.errors">
                         <span *ngIf="email.hasError('required')">
                               Please enter your email address.
                         </span>
@@ -76,146 +79,172 @@
 
                       </span>
 
-                    </div>
-                </div>
+            </div>
+          </div>
 
-                <div class="form-group"
-                     [ngClass]="{'has-error': (phone.touched || phone.dirty) && phone.invalid }">
-                  <label class="col-md-2 control-label"
-                         for="phoneId">Phone</label>
+          <div class="form-group"
+               [ngClass]="{'has-error': (confirmEmail.touched ||
+                               confirmEmail.dirty) &&
+                               confirmEmail.invalid }">
+            <label class="col-md-2 control-label"
+                   for="confirmEmailId">Confirm Email</label>
 
-                  <div class="col-md-8">
-                    <input class="form-control"
-                           id="phoneId"
-                           type="tel"
-                           placeholder={{placeholder.phone}}
-                           formControlName="phone" />
-                    <span class="help-block" *ngIf="(phone.touched || phone.dirty) && phone.errors">
+            <div class="col-md-8">
+              <input class="form-control"
+                     id="confirmEmailId"
+                     type="email"
+                     placeholder={{placeholder.confirmEmail}}
+                     formControlName="confirmEmail"/>
+              <span class="help-block" *ngIf="(confirmEmail.touched || confirmEmail.dirty) &&
+                                      (confirmEmail.errors || emailGroup.errors)">
+               <span *ngIf="confirmEmail.hasError('required')">
+                     Please confirm your email address.
+               </span>
+                <span *ngIf="emailGroup.hasError('emailMatch')">
+                     The confirmation does not match the email address.
+               </span>
+
+            </span>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group"
+             [ngClass]="{'has-error': (phone.touched || phone.dirty) && phone.invalid }">
+          <label class="col-md-2 control-label"
+                 for="phoneId">Phone</label>
+
+          <div class="col-md-8">
+            <input class="form-control"
+                   id="phoneId"
+                   type="tel"
+                   placeholder={{placeholder.phone}}
+                   formControlName="phone"/>
+            <span class="help-block" *ngIf="(phone.touched || phone.dirty) && phone.errors">
                       <span *ngIf="phone.hasError('required')">
                           Please enter your phone number.
                       </span>
                   </span>
-                  </div>
-                </div>
+          </div>
+        </div>
 
-                <div class="form-group">
-                  <label class="col-md-2 control-label">Send Notifications</label>
-                  <div class="col-md-8">
-                    <label class="radio-inline">
-                      <input type="radio"
-                             value="email"
-                             formControlName="notification"
-                             (click)="onSetNotification('email')">Email
-                    </label>
-                    <label class="radio-inline">
-                      <input type="radio"
-                             value="text"
-                             formControlName="notification"
-                             (click)="onSetNotification('text')">Text
-                    </label>
-                  </div>
-                </div>
+        <div class="form-group">
+          <label class="col-md-2 control-label">Send Notifications</label>
+          <div class="col-md-8">
+            <label class="radio-inline">
+              <input type="radio"
+                     value="email"
+                     formControlName="notification"
+                     (click)="onSetNotification('email')">Email
+            </label>
+            <label class="radio-inline">
+              <input type="radio"
+                     value="text"
+                     formControlName="notification"
+                     (click)="onSetNotification('text')">Text
+            </label>
+          </div>
+        </div>
 
-          <div class="form-group"
-               [ngClass]="{'has-error': (serviceLevel.touched || serviceLevel.dirty) && !serviceLevel.valid }">
-            <label class="col-md-2 control-label"
-                   for="serviceLevelId">Service Level</label>
+        <div class="form-group"
+             [ngClass]="{'has-error': (serviceLevel.touched || serviceLevel.dirty) && !serviceLevel.valid }">
+          <label class="col-md-2 control-label"
+                 for="serviceLevelId">Service Level</label>
 
-            <div class="col-md-8">
-              <input class="form-control"
-                     id="serviceLevelId"
-                     type="number"
-                     formControlName="serviceLevel"
-                     appServiceLevelValidator [rMin]="rMin" [rMax]="rMax" />
-              <span class="help-block" *ngIf="(serviceLevel.touched || serviceLevel.dirty) && serviceLevel.errors">
+          <div class="col-md-8">
+            <input class="form-control"
+                   id="serviceLevelId"
+                   type="number"
+                   formControlName="serviceLevel"
+                   appServiceLevelValidator [rMin]="rMin" [rMax]="rMax"/>
+            <span class="help-block" *ngIf="(serviceLevel.touched || serviceLevel.dirty) && serviceLevel.errors">
                 <span *ngIf="serviceLevel.hasError('serviceLevel')">
                     Please enter correct number from {{rMin}} to {{rMax}}.
                 </span>
             </span>
-            </div>
           </div>
+        </div>
 
 
+        <div class="form-group">
+          <div class="col-md-offset-1 col-md-8 checkbox">
+            <label>
+              <input id="sendProductsId"
+                     type="checkbox"
+                     formControlName="sendProducts"/>
+              Send me your products
+            </label>
+          </div>
+        </div>
 
-          <div class="form-group">
-                    <div class="col-md-offset-1 col-md-8 checkbox" >
-                        <label>
-                            <input id="sendProductsId"
-                                   type="checkbox"
-                                   formControlName="sendProducts"/>
-                            Send me your products
-                        </label>
-                    </div>
-                </div>
+        <!--                <div>-->
+        <!--                    <div class="form-group" >-->
+        <!--                        <label class="col-md-2 control-label">Address Type</label>-->
+        <!--                        <div class="col-md-8">-->
+        <!--                                <label class="radio-inline">-->
+        <!--                                    <input type="radio" id="addressType1Id" value="home">Home-->
+        <!--                                </label>-->
+        <!--                                <label class="radio-inline">-->
+        <!--                                    <input type="radio" id="addressType2Id" value="work">Work-->
+        <!--                                </label>-->
+        <!--                                <label class="radio-inline">-->
+        <!--                                    <input type="radio" id="addressType3Id" value="other">Other-->
+        <!--                                </label>-->
+        <!--                        </div>-->
+        <!--                    </div>-->
 
-<!--                <div>-->
-<!--                    <div class="form-group" >-->
-<!--                        <label class="col-md-2 control-label">Address Type</label>-->
-<!--                        <div class="col-md-8">-->
-<!--                                <label class="radio-inline">-->
-<!--                                    <input type="radio" id="addressType1Id" value="home">Home-->
-<!--                                </label>-->
-<!--                                <label class="radio-inline">-->
-<!--                                    <input type="radio" id="addressType2Id" value="work">Work-->
-<!--                                </label>-->
-<!--                                <label class="radio-inline">-->
-<!--                                    <input type="radio" id="addressType3Id" value="other">Other-->
-<!--                                </label>-->
-<!--                        </div>-->
-<!--                    </div>-->
+        <!--                    <div class="form-group">-->
+        <!--                        <label class="col-md-2 control-label"-->
+        <!--                            for="cityId">Country, City, Zip Code</label>-->
 
-<!--                    <div class="form-group">-->
-<!--                        <label class="col-md-2 control-label"-->
-<!--                            for="cityId">Country, City, Zip Code</label>-->
+        <!--                        <div class="col-md-3">-->
+        <!--                            <select class="form-control"-->
+        <!--                                    id="countryId">-->
+        <!--                                <option value="">Select a Country...</option>-->
+        <!--                                <option *ngFor="let country of countries"-->
+        <!--                                        value="{{country}}">{{country}}-->
+        <!--                                </option>-->
+        <!--                            </select>-->
+        <!--                        </div>-->
+        <!--                         <div class="col-md-3">-->
+        <!--                            <input type="text"-->
+        <!--                                   class="form-control"-->
+        <!--                                   id="cityId"-->
+        <!--                                   placeholder="City">-->
+        <!--                        </div>-->
+        <!--                        <div class="col-md-2">-->
+        <!--                        <input type="number"-->
+        <!--                                   class="form-control"-->
+        <!--                                   id="zipId"-->
+        <!--                                   placeholder="Zip Code">-->
+        <!--                        </div>-->
+        <!--                    </div>-->
 
-<!--                        <div class="col-md-3">-->
-<!--                            <select class="form-control"-->
-<!--                                    id="countryId">-->
-<!--                                <option value="">Select a Country...</option>-->
-<!--                                <option *ngFor="let country of countries"-->
-<!--                                        value="{{country}}">{{country}}-->
-<!--                                </option>-->
-<!--                            </select>-->
-<!--                        </div>-->
-<!--                         <div class="col-md-3">-->
-<!--                            <input type="text"-->
-<!--                                   class="form-control"-->
-<!--                                   id="cityId"-->
-<!--                                   placeholder="City">-->
-<!--                        </div>-->
-<!--                        <div class="col-md-2">-->
-<!--                        <input type="number"-->
-<!--                                   class="form-control"-->
-<!--                                   id="zipId"-->
-<!--                                   placeholder="Zip Code">-->
-<!--                        </div>-->
-<!--                    </div>-->
+        <!--                     <div class="form-group">-->
+        <!--                        <label class="col-md-2 control-label"-->
+        <!--                            for="street1Id">Street Address 1</label>-->
+        <!--                        <div class="col-md-8">-->
+        <!--                            <input type="text"-->
+        <!--                                   class="form-control"-->
+        <!--                                   id="street1Id"-->
+        <!--                                   placeholder="Street address">-->
+        <!--                        </div>-->
+        <!--                    </div>-->
 
-<!--                     <div class="form-group">-->
-<!--                        <label class="col-md-2 control-label"-->
-<!--                            for="street1Id">Street Address 1</label>-->
-<!--                        <div class="col-md-8">-->
-<!--                            <input type="text"-->
-<!--                                   class="form-control"-->
-<!--                                   id="street1Id"-->
-<!--                                   placeholder="Street address">-->
-<!--                        </div>-->
-<!--                    </div>-->
+        <!--                    <div class="form-group">-->
+        <!--                        <label class="col-md-2 control-label"-->
+        <!--                            for="street2Id">Street Address 2</label>-->
+        <!--                        <div class="col-md-8">-->
+        <!--                            <input type="text"-->
+        <!--                                   class="form-control"-->
+        <!--                                   id="street2Id"-->
+        <!--                                   placeholder="Street address (second line)">-->
+        <!--                        </div>-->
+        <!--                    </div>-->
+        <!--                </div>-->
 
-<!--                    <div class="form-group">-->
-<!--                        <label class="col-md-2 control-label"-->
-<!--                            for="street2Id">Street Address 2</label>-->
-<!--                        <div class="col-md-8">-->
-<!--                            <input type="text"-->
-<!--                                   class="form-control"-->
-<!--                                   id="street2Id"-->
-<!--                                   placeholder="Street address (second line)">-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-
-                <div class="form-group">
-                    <div class="col-md-4 col-md-offset-2">
+        <div class="form-group">
+          <div class="col-md-4 col-md-offset-2">
                         <span>
                             <button class="btn btn-primary"
                                     type="submit"
@@ -229,11 +258,11 @@
                           </button>
 
                         </span>
-                    </div>
-                </div>
-            </fieldset>
-        </form>
-    </div>
+          </div>
+        </div>
+      </fieldset>
+    </form>
+  </div>
 </div>
 
 <br>Dirty: {{ userForm.dirty }}
