@@ -11,6 +11,9 @@ import {CustomValidators} from "../../validators";
 })
 export class SignupReactiveFormComponent implements OnInit {
 
+  rMin = 1;
+  rMax = 3;
+
   countries: Array<string> = ['Ukraine', 'Armenia', 'Belarus', 'Hungary', 'Kazakhstan', 'Poland', 'Russia'];
 // data model
   user: UserModel = new UserModel(
@@ -65,7 +68,7 @@ export class SignupReactiveFormComponent implements OnInit {
     ],
     phone: '',
     notification: 'email',
-    serviceLevel: ['', CustomValidators.serviceLevel],
+    serviceLevel: ['', CustomValidators.serviceLevelRange(this.rMin, this.rMax)],
     sendProducts: true
   });
 

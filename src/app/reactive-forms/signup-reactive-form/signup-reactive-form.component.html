@@ -124,7 +124,7 @@
                      formControlName="serviceLevel" />
               <span class="help-block" *ngIf="(serviceLevel.touched || serviceLevel.dirty) && serviceLevel.errors">
                 <span *ngIf="serviceLevel.hasError('serviceLevel')">
-                    Please enter correct number from 1 to 5.
+                    Please enter correct number from {{rMin}} to {{rMax}}.
                 </span>
             </span>
             </div>
