@@ -1,4 +1,4 @@
-import {Directive} from '@angular/core';
+import {Directive, Input} from '@angular/core';
 import {AbstractControl, NG_VALIDATORS, ValidationErrors, Validator} from '@angular/forms';
 
 import {checkServiceLevel} from './custom.validators';
@@ -13,7 +13,10 @@ import {checkServiceLevel} from './custom.validators';
 })
 export class ServiceLevelDirective implements Validator {
 
+  @Input() rMin = 1;
+  @Input() rMax = 3;
+
   validate(c: AbstractControl): ValidationErrors | null {
-    return checkServiceLevel(c.value, 1, 3);
+    return checkServiceLevel(c.value, this.rMin, this.rMax);
   }
 }

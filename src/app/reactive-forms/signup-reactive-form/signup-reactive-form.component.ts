@@ -12,7 +12,7 @@ import {CustomValidators} from "../../validators";
 export class SignupReactiveFormComponent implements OnInit {
 
   rMin = 1;
-  rMax = 3;
+  rMax = 4;
 
   countries: Array<string> = ['Ukraine', 'Armenia', 'Belarus', 'Hungary', 'Kazakhstan', 'Poland', 'Russia'];
 // data model
