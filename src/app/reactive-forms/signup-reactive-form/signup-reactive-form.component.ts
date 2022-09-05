@@ -25,17 +25,33 @@ export class SignupReactiveFormComponent implements OnInit {
     phone: 'Phone'
   };
 
-  // form model
+  // // form model
   // userForm = new FormGroup({
-  //   firstName: new FormControl(''),
+  //   firstName: new FormControl('', {
+  //     validators: [Validators.required, Validators.minLength(3)],
+  //     updateOn: 'blur',
+  //     nonNullable: true
+  //   }),
+  //
   //   lastName: new FormControl(''),
   //   email: new FormControl(''),
+  //   phone: new FormControl(),
+  //   notification: new FormControl('email'),
+  //   serviceLevel: new FormControl('', {
+  //     validators: [CustomValidators.serviceLevel],
+  //     updateOn: 'blur'
+  //   }),
   //   sendProducts: new FormControl(true)
   // });
 
   userForm = this.fb.group({
-    firstName: ['', [Validators.required, Validators.minLength(3)]],
-    lastName: [
+    // firstName: ['', [Validators.required, Validators.minLength(3)]],
+  // It works!
+  firstName: new FormControl('', {validators: [Validators.required, Validators.minLength(3)], updateOn: 'blur'}),
+  // It works since v7
+  // firstName: this.fb.control('', { validators: [Validators.required, Validators.minLength(3)], updateOn: 'blur' }),
+
+  lastName: [
       { value: 'Zhyrytskyy', disabled: false },
       [Validators.required, Validators.maxLength(50)]
     ],
@@ -133,7 +149,7 @@ export class SignupReactiveFormComponent implements OnInit {
   private patchFormValues(): void {
     this.userForm.patchValue({
       firstName: this.user.firstName,
-      lastName: { value: this.user.lastName, disabled: false }
+      // lastName: { value: this.user.lastName, disabled: false }
     });
   }
 
