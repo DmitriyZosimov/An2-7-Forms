@@ -70,6 +70,10 @@
                         <span *ngIf="email.hasError('email')">
                               Please enter a valid email address.
                         </span>
+                        <span *ngIf="email.hasError('asyncEmailInvalid')">
+                              This email already exists. Please enter other email address.
+                        </span>
+
                       </span>
 
                     </div>

@@ -1,4 +1,5 @@
 import {AbstractControl, ValidationErrors, ValidatorFn} from '@angular/forms';
+import {Observable} from "rxjs";
 
 export function checkServiceLevel(
   value: number,
@@ -26,5 +27,23 @@ export class CustomValidators {
       return checkServiceLevel(value, min, max);
     }
   }
+
+  static asyncEmailPromiseValidator(c: AbstractControl):
+    Promise<ValidationErrors | null> | Observable<ValidationErrors | null> {
+    const email = c.value;
+
+    return new Promise(resolve => {
+      setTimeout(() => {
+        if (email === 'existsemail@example.com') {
+          resolve({
+            asyncEmailInvalid: true
+          });
+        } else {
+          resolve(null);
+        }
+      }, 2000);
+    });
+  }
+
 
 }
