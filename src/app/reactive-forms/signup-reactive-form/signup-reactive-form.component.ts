@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {FormGroup, FormControl, AbstractControl, FormBuilder, Validators} from '@angular/forms';
 import { UserModel } from './../../models/user.model';
+import {CustomValidators} from "../../validators";
 
 
 @Component({
@@ -48,6 +49,7 @@ export class SignupReactiveFormComponent implements OnInit {
     ],
     phone: '',
     notification: 'email',
+    serviceLevel: ['', CustomValidators.serviceLevel],
     sendProducts: true
   });
 
@@ -88,6 +90,11 @@ export class SignupReactiveFormComponent implements OnInit {
   get phone(): AbstractControl {
     return this.userForm.get('phone')!;
   }
+
+  get serviceLevel(): AbstractControl {
+    return this.userForm.get('serviceLevel')!;
+  }
+
 
   // private setFormValues(): void {
   //   this.userForm.setValue({
