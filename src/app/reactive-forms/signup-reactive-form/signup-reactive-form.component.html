@@ -121,7 +121,8 @@
               <input class="form-control"
                      id="serviceLevelId"
                      type="number"
-                     formControlName="serviceLevel" />
+                     formControlName="serviceLevel"
+                     appServiceLevelValidator/>
               <span class="help-block" *ngIf="(serviceLevel.touched || serviceLevel.dirty) && serviceLevel.errors">
                 <span *ngIf="serviceLevel.hasError('serviceLevel')">
                     Please enter correct number from {{rMin}} to {{rMax}}.
