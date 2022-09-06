@@ -25,7 +25,6 @@ export class SignupReactiveFormComponent implements OnInit, OnDestroy {
 
   private sub!: Subscription;
 
-  countries: Array<string> = ['Ukraine', 'Armenia', 'Belarus', 'Hungary', 'Kazakhstan', 'Poland', 'Russia'];
 // data model
   user: UserModel = new UserModel(
     'Vitaliy',
@@ -237,14 +236,7 @@ export class SignupReactiveFormComponent implements OnInit, OnDestroy {
   // }
 
   private buildAddress() {
-    return this.fb.group({
-      addressType: 'home',
-      country: '',
-      city: '',
-      zip: '',
-      street1: '',
-      street2: ''
-    });
+    return this.fb.control('');
   }
 
   private setNotification(notifyVia: string): void {

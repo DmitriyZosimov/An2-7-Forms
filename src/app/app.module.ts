@@ -8,12 +8,14 @@ import { AppComponent } from './app.component';
 import { SignupFormComponent } from './template-driven-forms/signup-form/signup-form.component';
 import { SignupReactiveFormComponent } from './reactive-forms/signup-reactive-form/signup-reactive-form.component';
 import { ValidatorsModule } from './validators/validators.module';
+import { AddressInfoComponent } from './reactive-forms/signup-reactive-form/components/address-info/address-info.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     SignupFormComponent,
-    SignupReactiveFormComponent
+    SignupReactiveFormComponent,
+    AddressInfoComponent
   ],
   imports: [BrowserModule, FormsModule, ReactiveFormsModule, AppRoutingModule, ValidatorsModule],
   providers: [],
