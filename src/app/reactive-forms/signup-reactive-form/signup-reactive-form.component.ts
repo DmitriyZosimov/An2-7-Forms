@@ -73,7 +73,8 @@ export class SignupReactiveFormComponent implements OnInit, OnDestroy {
     phone: '',
     notification: 'email',
     serviceLevel: [''],
-    sendProducts: true
+    sendProducts: true,
+    addresses: this.buildAddress()
   });
 
   // для удобства меп включает все контроллы,
@@ -214,6 +215,17 @@ export class SignupReactiveFormComponent implements OnInit, OnDestroy {
   //     sendProducts: this.user.sendProducts
   //   });
   // }
+
+  private buildAddress() {
+    return this.fb.group({
+      addressType: 'home',
+      country: '',
+      city: '',
+      zip: '',
+      street1: '',
+      street2: ''
+    });
+  }
 
   private setNotification(notifyVia: string): void {
     const controls = new Map();
