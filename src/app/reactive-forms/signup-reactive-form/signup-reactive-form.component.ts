@@ -1,5 +1,13 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {FormGroup, FormControl, AbstractControl, FormBuilder, Validators, AbstractControlOptions} from '@angular/forms';
+import {
+  FormGroup,
+  FormControl,
+  AbstractControl,
+  FormBuilder,
+  Validators,
+  AbstractControlOptions,
+  FormArray
+} from '@angular/forms';
 import { UserModel } from './../../models/user.model';
 import {CustomValidators} from "../../validators";
 import {Subscription} from "rxjs";
@@ -74,7 +82,7 @@ export class SignupReactiveFormComponent implements OnInit, OnDestroy {
     notification: 'email',
     serviceLevel: [''],
     sendProducts: true,
-    addresses: this.buildAddress()
+    addresses: this.fb.array([this.buildAddress()])
   });
 
   // для удобства меп включает все контроллы,
@@ -134,6 +142,14 @@ export class SignupReactiveFormComponent implements OnInit, OnDestroy {
     this.sub.unsubscribe();
   }
 
+  onAddAddress(): void {
+    this.addresses.push(this.buildAddress());
+  }
+
+  onRemoveAddress(index: number): void {
+    this.addresses.removeAt(index);
+  }
+
   onReset(): void {
     this.userForm.reset();
   }
@@ -181,6 +197,10 @@ export class SignupReactiveFormComponent implements OnInit, OnDestroy {
 
   get sendProducts(): AbstractControl {
     return this.userForm.get('sendProducts')!;
+  }
+
+  get addresses(): FormArray {
+    return this.userForm.get('addresses') as unknown as FormArray;
   }
 
   isShowValidationMessage(controlName: string): boolean {
