@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormGroup, FormControl, AbstractControl, FormBuilder, Validators, AbstractControlOptions} from '@angular/forms';
 import { UserModel } from './../../models/user.model';
 import {CustomValidators} from "../../validators";
+import {Subscription} from "rxjs";
 
 
 @Component({
@@ -9,10 +10,12 @@ import {CustomValidators} from "../../validators";
   templateUrl: './signup-reactive-form.component.html',
   styleUrls: ['./signup-reactive-form.component.css']
 })
-export class SignupReactiveFormComponent implements OnInit {
+export class SignupReactiveFormComponent implements OnInit, OnDestroy {
 
   rMin = 1;
   rMax = 4;
+
+  private sub!: Subscription;
 
   countries: Array<string> = ['Ukraine', 'Armenia', 'Belarus', 'Hungary', 'Kazakhstan', 'Poland', 'Russia'];
 // data model
@@ -73,13 +76,61 @@ export class SignupReactiveFormComponent implements OnInit {
     sendProducts: true
   });
 
+  // для удобства меп включает все контроллы,
+// даже если у них нет валидаторов
+  validationMessagesMap = new Map([
+    ['firstName', {
+      message: '', // <== сформированное сообщение для пользователя
+      required: 'Please enter your first name.',
+      minlength: 'The first name must be longer than 3 characters.'
+    }],
+    ['lastName', {
+      message: '',
+      required: 'Please enter your last name.'
+    }],
+    ['email', {
+      message: '',
+      required: 'Please enter your email address.',
+      pattern: 'Please enter a valid email address.',
+      email: 'Please enter a valid email address.',
+      asyncEmailInvalid:
+        'This email already exists. Please enter other email address.'
+    }],
+    ['confirmEmail', {
+      message: '',
+      required: 'Please confirm your email address.'
+    }],
+    ['emailGroup', {
+      message: '',
+      emailMatch: 'The confirmation does not match the email address.'
+    }],
+    ['phone', {
+      message: '',
+      required: 'Please enter your phone number.'
+    }],
+    ['serviceLevel', {
+      message: '',
+      serviceLevel: `Please enter correct number from ${this.rMin} to ${this.rMax}.`
+    }],
+    ['notification', {
+      message: ''
+    }],
+    ['sendProducts', {
+      message: ''
+    }]
+  ]);
 
   constructor(private fb: FormBuilder) { }
 
   ngOnInit() {
+    this.watchValueChanges();
     // this.setFormValues();
     // this.patchFormValues();
+    this.setValidationMessages();
+  }
 
+  ngOnDestroy(): void {
+    this.sub.unsubscribe();
   }
 
   onReset(): void {
@@ -119,10 +170,41 @@ export class SignupReactiveFormComponent implements OnInit {
     return this.userForm.get('phone')!;
   }
 
+  get notification(): AbstractControl {
+    return this.userForm.get('notification')!;
+  }
+
   get serviceLevel(): AbstractControl {
     return this.userForm.get('serviceLevel')!;
   }
 
+  get sendProducts(): AbstractControl {
+    return this.userForm.get('sendProducts')!;
+  }
+
+  isShowValidationMessage(controlName: string): boolean {
+    return this.validationMessagesMap.get(controlName)!.message && (this as {[index: string]: any})[controlName].touched;
+  }
+
+  private buildValidationMessages(controlName: string): void {
+    const c: AbstractControl = (this as {[index: string]: any})[controlName]; // вызов гетера
+    this.validationMessagesMap.get(controlName)!.message = '';
+
+    if (c.errors) {
+      this.validationMessagesMap.get(controlName)!.message = Object.keys(c.errors)
+        .map(key => {
+          const value = this.validationMessagesMap.get(controlName)!;
+          return (value as {[index: string]: any})[key];
+        })
+        .join(' ');
+    }
+  }
+
+  private setValidationMessages(): void {
+    this.validationMessagesMap.forEach((control, cntrlName) => {
+      this.buildValidationMessages(cntrlName);
+    });
+  }
 
   // private setFormValues(): void {
   //   this.userForm.setValue({
@@ -133,7 +215,7 @@ export class SignupReactiveFormComponent implements OnInit {
   //   });
   // }
 
-  onSetNotification(notifyVia: string): void {
+  private setNotification(notifyVia: string): void {
     const controls = new Map();
     controls.set('phoneControl', this.phone);
     controls.set('emailGroup', this.emailGroup);
@@ -184,6 +266,15 @@ export class SignupReactiveFormComponent implements OnInit {
       firstName: this.user.firstName,
       // lastName: { value: this.user.lastName, disabled: false }
     });
+  }
+
+  private watchValueChanges(): void {
+    this.sub = this.notification.valueChanges.subscribe(value => this.setNotification(value));
+    const sub = this.userForm.valueChanges.subscribe(ignorValue =>
+      this.setValidationMessages()
+    );
+    this.sub.add(sub);
+
   }
 
 

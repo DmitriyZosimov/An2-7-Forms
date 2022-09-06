@@ -9,7 +9,7 @@
           [formGroup]="userForm">
       <fieldset>
         <div class="form-group"
-             [ngClass]="{'has-error': (firstName.touched || firstName.dirty) && !firstName.valid }">
+             [ngClass]="{'has-error': isShowValidationMessage('firstName') }">
           <label class="col-md-2 control-label"
                  for="firstNameId">First Name</label>
           <div class="col-md-8">
@@ -18,20 +18,14 @@
                    type="text"
                    placeholder="First Name (required)"
                    formControlName="firstName"/>
-            <span class="help-block" *ngIf="(firstName.touched || firstName.dirty) && firstName.errors">
-                        <span *ngIf="firstName.hasError('required')">
-                              Please enter your first name.
-                        </span>
-                        <span *ngIf="firstName.hasError('minlength')">
-                              The first name must be longer than 3 characters.
-                        </span>
-                      </span>
-
+            <span class="help-block" *ngIf="isShowValidationMessage('firstName') ">
+                  {{validationMessagesMap.get('firstName')?.message}}
+            </span>
           </div>
         </div>
 
         <div class="form-group"
-             [ngClass]="{'has-error': (lastName.touched || lastName.dirty) && !lastName.valid }">
+             [ngClass]="{'has-error': isShowValidationMessage('lastName') }">
           <label class="col-md-2 control-label"
                  for="lastNameId">Last Name</label>
           <div class="col-md-8">
@@ -40,20 +34,18 @@
                    type="text"
                    placeholder="Last Name (required)"
                    formControlName="lastName"/>
-            <span class="help-block" *ngIf="(lastName.touched || lastName.dirty) && lastName.errors">
-                        <span *ngIf="lastName.hasError('required')">
-                              Please enter your last name.
-                        </span>
-                      </span>
+            <span class="help-block" *ngIf="isShowValidationMessage('lastName') ">
+                  {{validationMessagesMap.get('lastName')?.message}}
+            </span>
 
           </div>
         </div>
 
         <div formGroupName="emailGroup"
-             [ngClass]="{'has-error': emailGroup.errors}">
+             [ngClass]="{'has-error': isShowValidationMessage('emailGroup') }">
           <!-- Put here email and confirmEmail blocks -->
           <div class="form-group"
-               [ngClass]="{'has-error': (email.touched || email.dirty) && email.invalid }">
+               [ngClass]="{'has-error': isShowValidationMessage('email') }">
             <label class="col-md-2 control-label"
                    for="emailId">Email</label>
 
@@ -63,29 +55,14 @@
                      type="email"
                      placeholder={{placeholder.email}}
                      formControlName="email"/>
-              <span class="help-block" *ngIf="(email.touched || email.dirty) && email.errors">
-                        <span *ngIf="email.hasError('required')">
-                              Please enter your email address.
-                        </span>
-                        <span *ngIf="email.hasError('pattern')">
-                              Please enter a valid email address.
-                        </span>
-                        <span *ngIf="email.hasError('email')">
-                              Please enter a valid email address.
-                        </span>
-                        <span *ngIf="email.hasError('asyncEmailInvalid')">
-                              This email already exists. Please enter other email address.
-                        </span>
-
-                      </span>
-
+              <span class="help-block" *ngIf=" isShowValidationMessage('email') ">
+                    {{validationMessagesMap.get('email')?.message}}
+              </span>
             </div>
           </div>
 
           <div class="form-group"
-               [ngClass]="{'has-error': (confirmEmail.touched ||
-                               confirmEmail.dirty) &&
-                               confirmEmail.invalid }">
+               [ngClass]="{'has-error': isShowValidationMessage('confirmEmail') }">
             <label class="col-md-2 control-label"
                    for="confirmEmailId">Confirm Email</label>
 
@@ -95,22 +72,19 @@
                      type="email"
                      placeholder={{placeholder.confirmEmail}}
                      formControlName="confirmEmail"/>
-              <span class="help-block" *ngIf="(confirmEmail.touched || confirmEmail.dirty) &&
-                                      (confirmEmail.errors || emailGroup.errors)">
-               <span *ngIf="confirmEmail.hasError('required')">
-                     Please confirm your email address.
-               </span>
-                <span *ngIf="emailGroup.hasError('emailMatch')">
-                     The confirmation does not match the email address.
-               </span>
+              <span class="help-block" *ngIf=" isShowValidationMessage('confirmEmail') ">
+                    {{validationMessagesMap.get('confirmEmail')?.message}}
+              </span>
+              <span class="help-block" *ngIf=" isShowValidationMessage('emailGroup') ">
+                    {{validationMessagesMap.get('emailGroup')?.message}}
+              </span>
 
-            </span>
             </div>
           </div>
         </div>
 
         <div class="form-group"
-             [ngClass]="{'has-error': (phone.touched || phone.dirty) && phone.invalid }">
+             [ngClass]="{'has-error': isShowValidationMessage('phone') }">
           <label class="col-md-2 control-label"
                  for="phoneId">Phone</label>
 
@@ -120,11 +94,10 @@
                    type="tel"
                    placeholder={{placeholder.phone}}
                    formControlName="phone"/>
-            <span class="help-block" *ngIf="(phone.touched || phone.dirty) && phone.errors">
-                      <span *ngIf="phone.hasError('required')">
-                          Please enter your phone number.
-                      </span>
-                  </span>
+            <span class="help-block" *ngIf=" isShowValidationMessage('phone') ">
+                  {{validationMessagesMap.get('phone')?.message}}
+            </span>
+
           </div>
         </div>
 
@@ -134,20 +107,18 @@
             <label class="radio-inline">
               <input type="radio"
                      value="email"
-                     formControlName="notification"
-                     (click)="onSetNotification('email')">Email
+                     formControlName="notification">Email
             </label>
             <label class="radio-inline">
               <input type="radio"
                      value="text"
-                     formControlName="notification"
-                     (click)="onSetNotification('text')">Text
+                     formControlName="notification">Text
             </label>
           </div>
         </div>
 
         <div class="form-group"
-             [ngClass]="{'has-error': (serviceLevel.touched || serviceLevel.dirty) && !serviceLevel.valid }">
+             [ngClass]="{'has-error': isShowValidationMessage('serviceLevel') }">
           <label class="col-md-2 control-label"
                  for="serviceLevelId">Service Level</label>
 
@@ -157,10 +128,8 @@
                    type="number"
                    formControlName="serviceLevel"
                    appServiceLevelValidator [rMin]="rMin" [rMax]="rMax"/>
-            <span class="help-block" *ngIf="(serviceLevel.touched || serviceLevel.dirty) && serviceLevel.errors">
-                <span *ngIf="serviceLevel.hasError('serviceLevel')">
-                    Please enter correct number from {{rMin}} to {{rMax}}.
-                </span>
+            <span class="help-block" *ngIf=" isShowValidationMessage('serviceLevel') ">
+                  {{validationMessagesMap.get('serviceLevel')?.message}}
             </span>
           </div>
         </div>
